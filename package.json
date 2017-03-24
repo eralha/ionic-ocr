@@ -1,0 +1,22 @@
+{
+  "name": "Ionic OCR",
+  "main": "index.html",
+  "version": "0.2.0",
+  "window": {
+    "toolbar": false,
+    "frame": true,
+    "icon": "www/img/ionic.png",
+    "show": false,
+    "position": "center",
+    "width": 1024,
+    "height": 768,
+    "fullscreen": false
+  },
+  "dependencies": {
+    "network-address": "git+https://github.com/gpt-modules/network-address.git",
+    "socket.io": "git+https://github.com/gpt-modules/socket.io.git"
+  },
+  "devDependencies": {
+    "nw-builder": "^2.2.0"
+  }
+}

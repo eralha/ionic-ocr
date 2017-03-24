@@ -1,0 +1,191 @@
+@import "_normalize.less";
+@import "remixins.less";
+
+@import "_utils.less";
+@import "_grid.less";
+@import "_icons.less";
+@import "_config.less";
+
+/*CSS NAMESPACES
+
+Component:         c-  c-card c-checklist
+Layout module:     l-  l-grid l-container
+Helpers:           h-  h-show h-hide
+States:            is- has-  is-visible has-loaded
+JavaScript hooks:  js- js-tab-switcher
+
+*/
+
+
+/* styles */
+body, html{
+  font-size: 62.5%;
+  background-color: #fff;
+}
+
+.main { width: 100%; }
+.wrapper {
+  width: 1200px;
+  font-size: 16px;
+  .m_center;
+}
+@media only screen and (max-width: 1199px){ 
+  .wrapper { width: 96%; }
+}
+@media only screen and (max-width: @desktop){ 
+  .wrapper { width: 96%; }
+}
+@media only screen and (max-width: @ipadPortrait){ 
+  .wrapper { width: 92%; }
+}
+@media only screen and (max-width: @mobile){ 
+  .wrapper--interior .container_12 > .grid_3,
+  .wrapper--interior .container_12 > .grid_9 { width: @grid_12 !important; }
+}
+
+.visible_on_mobile { display: none; }
+.visible_on_ipadportrait { display: none; }
+@media only screen and (max-width: @ipadPortrait){
+  .visible_on_ipadportrait { display: block; }
+  .full_on_ipadportrait { width: @grid_12 !important; }
+  .hidden_on_ipadportrait { display: none; }
+}
+@media only screen and (max-width: @mobile){
+  .visible_on_mobile { display: block; }
+  .full_on_mobile { width: @grid_12 !important; }
+  .hidden_on_mobile { display: none; }
+}
+
+
+.c-main__container {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+
+@import "_editor.less";
+
+/* helpers */
+.ir {
+    background-color: transparent;
+    border: 0;
+    overflow: hidden;
+    *text-indent: -9999px;
+}
+
+.ir:before {
+    content: "";
+    display: block;
+    width: 0;
+    height: 150%;
+}
+.hidden {
+    display: none !important;
+    visibility: hidden;
+}
+
+.visuallyhidden {
+    border: 0;
+    clip: rect(0 0 0 0);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px;
+}
+
+.visuallyhidden.focusable:active,
+.visuallyhidden.focusable:focus {
+    clip: auto;
+    height: auto;
+    margin: 0;
+    overflow: visible;
+    position: static;
+    width: auto;
+}
+.invisible {
+    visibility: hidden;
+}
+
+.cf:before,
+.cf:after {
+    content: " ";
+    display: table;
+}
+
+.cf:after {
+    clear: both;
+}
+
+.cf {
+    *zoom: 1;
+}
+
+
+/*UI VIEW ANIM*/
+[ui-view] {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  height: 100%;
+  background-color: #fff;
+  -webkit-transition:all .5s ease-in-out;
+  -moz-transition:all .5s ease-in-out;
+  -o-transition:all .5s ease-in-out;
+  transition:all .5s ease-in-out;
+}
+
+[ui-view].ng-enter, [ui-view].ng-leave {
+  
+}
+
+[ui-view].ng-enter {
+  position: absolute;
+  opacity: 0;
+  -webkit-transition-delay: 0.5s; /* Safari */
+  transition-delay: 0.5s;
+}
+
+[ui-view].ng-enter-active {
+  opacity: 1;
+}
+
+[ui-view].ng-leave {
+  opacity: 1; 
+}
+
+[ui-view].ng-leave-active {
+  opacity: 0;
+}
+
+
+/* Styling for the ngProgress itself */
+#ngProgress {
+    margin: 0;
+    padding: 0;
+    z-index: 99998;
+    background-color: #000 !important;
+    color: #000 !important;
+    box-shadow: 0 0 10px 0; /* Inherits the font color */
+    height: 2px;
+    opacity: 0;
+
+    /* Add CSS3 styles for transition smoothing */
+    -webkit-transition: all 0.5s ease-in-out;
+    -moz-transition: all 0.5s ease-in-out;
+    -o-transition: all 0.5s ease-in-out;
+    transition: all 0.5s ease-in-out;
+}
+
+/* Styling for the ngProgress-container */
+#ngProgress-container {
+    position: fixed;
+    margin: 0;
+    padding: 0;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 99999;
+}
