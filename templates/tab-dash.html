@@ -1,17 +1,37 @@
 <ion-view view-title="Dashboard">
-  <ion-content class="padding">
-    <h2>Welcome to Ionic</h2>
-    <p>
-    This is the Ionic starter for tabs-based apps. For other starters and ready-made templates, check out the <a href="http://market.ionic.io/starters" target="_blank">Ionic Market</a>.
-    </p>
-    <p>
-      To edit the content of each tab, edit the corresponding template file in <code>www/templates/</code>. This template is <code>www/templates/tab-dash.html</code>
-    </p>
-    <p>
-    If you need help with your app, join the Ionic Community on the <a href="http://forum.ionicframework.com" target="_blank">Ionic Forum</a>. Make sure to <a href="http://twitter.com/ionicframework" target="_blank">follow us</a> on Twitter to get important updates and announcements for Ionic developers.
-    </p>
-    <p>
-      For help sending push notifications, join the <a href="https://apps.ionic.io/signup" target="_blank">Ionic Platform</a> and check out <a href="http://docs.ionic.io/docs/push-overview" target="_blank">Ionic Push</a>. We also have other services available.
-    </p>
+  <ion-content class="padding" ng-controller="FileListController">
+
+
+    <div class="item item-input-inset mb_20">
+      <label class="item-input-wrapper">
+        <input type="file" name="fileArray" multiple dir-file-input ng-model="inputFiles">
+      </label>
+      <button class="button button-small" ng-click="getTexts();">
+        Extrair textos
+      </button>
+    </div>
+
+    <button class="button button-full button-energized mb_20" ng-if="isloading">
+      A processar imagens: {{loaded}}/{{total}}
+    </button>
+
+    <div class="c-files__list">
+      
+      <div class="list card" ng-repeat="file in files">
+        <div class="item item-divider item-divider-top">
+          <i class="icon ion-close" ng-click="removeFile(file)"></i>
+        </div>
+        <div class="item item-image">
+          <img src="{{file.data}}">
+        </div>
+        <div class="item item-divider">
+          <label class="item item-input">
+            <textarea placeholder="Texto Imagem" id="text_file_{{file.id}}" ng-model="file.imageText"></textarea>
+          </label>
+        </div>
+      </div><!-- END CARD -->
+
+    </div><!-- LISTA -->
+
   </ion-content>
 </ion-view>

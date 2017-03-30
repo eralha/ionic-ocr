@@ -19,7 +19,7 @@ JavaScript hooks:  js- js-tab-switcher
 
 /* styles */
 body, html{
-  font-size: 62.5%;
+  font-size: 14px;
   background-color: #fff;
 }
 
@@ -61,6 +61,72 @@ body, html{
   position: absolute;
   width: 100%;
   height: 100%;
+}
+
+.c-files__list {
+  .flex;
+  .flex-wrap;
+
+  .card { 
+    position: relative;
+    width: 48% !important;
+    margin: 0 1%;
+    margin-bottom: 20px;
+
+    .item-image {
+      position: relative;
+      width: 100%;
+      height: 350px;
+      background-color: #e9e9ee;
+
+      img {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        max-width: 100%;
+        max-height: 100%;
+        ._transform(-50%, -50%, 0);
+      }
+    }
+    .item-divider {
+      position: relative;
+      width: 100%;
+      height: 100px;
+      textarea {
+        position: relative;
+        width: 100%;
+        height: 100px;
+      }
+    }
+    .item-divider-top {
+      height: 38px;
+      text-align: right;
+
+      .icon {
+        cursor: pointer;
+      }
+    }
+  }
+
+  .list {
+    width: 100%;
+
+    .item-texto {
+      position: relative;
+      padding-right: 100px;
+
+      input[type="text"] {
+        position: absolute;
+        top: -200px;
+      }
+      .button {
+        position: absolute;
+        right: 8px;
+        top: 12px;
+      }
+      .button-positive { right: 41px; }
+    }
+  }
 }
 
 

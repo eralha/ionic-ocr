@@ -1,0 +1,29 @@
+<ion-view view-title="Listagens de texto">
+  <ion-content class="padding" ng-controller="FileListController">
+
+    <button class="button button-full button-energized mb_20" ng-if="isloading">
+      A carregar: {{loaded}}/{{total}}
+    </button>
+
+    <div class="c-files__list">
+
+      <ul class="list">
+          <li class="item item-texto" ng-repeat="file in files" ng-if="file.imageText">
+            {{file.imageText}}
+            <input type="text" id="file_text_copy_{{file.id}}" value="{{file.imageText}}" class="" />
+
+            <button class="button button-small button-assertive" ng-click="removeFile(file)">
+              <i class="icon ion-close"></i>
+            </button>
+            <button class="button button-small button-positive" ng-click="copy(file)">
+              copiar
+            </button>
+          </li>
+
+          <li class="item" ng-if="files.length == 0">Não há ficheiros para mostrar...</li>
+      </ul>
+
+    </div><!-- LISTA -->
+
+  </ion-content>
+</ion-view>
