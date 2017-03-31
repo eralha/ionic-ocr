@@ -5,14 +5,62 @@ ServicesModule.factory('FileService', function($q, OCRService, $ionicPopup, $fil
 
   var fileStorage = new Array();
   var sup = this;
+  var workerProcessQueue = new Array();
+  var workerWaitQueue = new Array();
   this.loadedNr;
   this.fileTotal;
 
-  function readFileBase64(){
+  function readFromFileTrasnform(file){
+  	var defer = $q.defer();
 
+    if(!file){
+      defer.reject();
+      return defer.promise;
+    }
+
+    //Se tiverem mais de 5 ficheiros a ser processados colocamos novos ficheiros em lista
+    if(workerProcessQueue.length > 5){
+
+      file.defer = defer;
+      workerWaitQueue.push(file);
+
+      return defer.promise;
+    }
+
+    var worker = new Worker("worker/jimp.js");
+    worker.onmessage = function (e) {
+        file.data = e.data;
+        file.id = Math.random()*10000;
+
+        fileStorage.unshift(file);
+
+        if(file.defer){
+          file.defer.resolve(file);
+        }else{
+          defer.resolve(file);
+        }
+
+        //remove este ficheiro da lista de processamento
+        var index = workerProcessQueue.indexOf(file);
+            workerProcessQueue.splice(index, 1);
+
+          //dá inicio ao processo de um ficheiro em espera
+          readFromFileTrasnform(workerWaitQueue[workerWaitQueue.length - 1]);
+
+          //remove da waitqueue este ficheiros
+          workerWaitQueue.pop();
+        
+        console.log(workerProcessQueue.length, workerWaitQueue.length);
+        worker.terminate();
+    };
+
+    workerProcessQueue.push(file);
+    worker.postMessage(file.path);
+
+  	return defer.promise;
   }
 
-  this.addFile = function(data){
+  function readFromFileAPI(_file){
   	var defer = $q.defer();
   	var reader  = new FileReader();
   	var file = {};
@@ -28,7 +76,25 @@ ServicesModule.factory('FileService', function($q, OCRService, $ionicPopup, $fil
 
 	}, false);
 
-	reader.readAsDataURL(data);
+	reader.readAsDataURL(_file);
+
+	return defer.promise;
+  }
+
+  this.addFile = function(file){
+  	var defer = $q.defer();
+
+  	if(file.size > 1000000){
+        console.log('file is bigger than 1MB', file.size);
+
+        readFromFileTrasnform(file).then(function(file){
+      		defer.resolve(file);
+      	});
+    }else{
+    	readFromFileAPI(file).then(function(file){
+    		defer.resolve(file);
+    	});
+    }
 
 	return defer.promise;
   }

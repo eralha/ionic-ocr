@@ -1,4 +1,4 @@
-var DirectivesModule = angular.module('starter.directives', [])
+var DirectivesModule = angular.module('starter.directives', []);
 
 DirectivesModule.directive('dirFileInput', ['$rootScope', '$injector', 'FileService', function($rootScope, $injector, FileService) {
   return {
@@ -13,6 +13,7 @@ DirectivesModule.directive('dirFileInput', ['$rootScope', '$injector', 'FileServ
         		console.log(files);
 
         		for(var i = 0; i < files.length; i++){
+
         			//console.log(files[i]);
         			FileService.addFile(files[i]).then(function(file){
         				//scope.$apply();
@@ -35,10 +36,10 @@ DirectivesModule.directive('dirImageZoom', ['$rootScope', '$injector', 'FileServ
         return function(scope, elem, attrs) {
 
             var img = $(elem).find('img');
-            var ew = $(elem).width();
-            var eh = $(elem).height();
 
             $(elem).mousemove(function(e){
+                var ew = $(elem).width();
+                var eh = $(elem).height();
                 var iw = $(img).width();
                 var ih = $(img).height();
                 var ofx = e.offsetX;
