@@ -25,3 +25,39 @@ DirectivesModule.directive('dirFileInput', ['$rootScope', '$injector', 'FileServ
     }
   };
 }]);
+
+
+DirectivesModule.directive('dirImageZoom', ['$rootScope', '$injector', 'FileService', function($rootScope, $injector, FileService) {
+  return {
+    restrict: 'A',
+    compile: function(e, a){
+        //console.log($(e).html(), arguments);
+        return function(scope, elem, attrs) {
+
+            var img = $(elem).find('img');
+            var ew = $(elem).width();
+            var eh = $(elem).height();
+
+            $(elem).mousemove(function(e){
+                var iw = $(img).width();
+                var ih = $(img).height();
+                var ofx = e.offsetX;
+                var ofy = e.offsetY;
+
+                var x = (ofx * iw) / ew;
+                var y = (ofy * ih) / eh;
+
+                var limitX = iw - ew;
+                var limitY = ih - eh;
+
+                x = (x > limitX) ? limitX : x;
+                y = (y > limitY) ? limitY : y;
+
+                $(img).css('left', (0 - x)+'px');
+                $(img).css('top', (0 - y)+'px');
+            });
+
+        }
+    }
+  };
+}]);

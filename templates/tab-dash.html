@@ -1,4 +1,4 @@
-<ion-view view-title="Dashboard">
+<ion-view view-title="Leitor de imagens">
   <ion-content class="padding" ng-controller="FileListController">
 
 
@@ -19,9 +19,14 @@
       
       <div class="list card" ng-repeat="file in files">
         <div class="item item-divider item-divider-top">
+          <i class="icon ion-eye mr_10" ng-click="readFileText(file)"></i>
+          <i class="icon ion-edit mr_10" ng-click="editFile(file)"></i>
           <i class="icon ion-close" ng-click="removeFile(file)"></i>
         </div>
         <div class="item item-image">
+          <div class="item-image-zoom" dir-Image-Zoom>
+            <img src="{{file.data}}">
+          </div>
           <img src="{{file.data}}">
         </div>
         <div class="item item-divider">

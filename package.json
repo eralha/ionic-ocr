@@ -13,10 +13,8 @@
     "fullscreen": false
   },
   "dependencies": {
-    "network-address": "git+https://github.com/gpt-modules/network-address.git",
-    "socket.io": "git+https://github.com/gpt-modules/socket.io.git"
+    "jimp": "^0.2.27"
   },
   "devDependencies": {
-    "nw-builder": "^2.2.0"
   }
 }

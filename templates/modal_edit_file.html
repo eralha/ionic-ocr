@@ -1,0 +1,15 @@
+<ion-modal-view>
+  <ion-header-bar class="bar bar-header bar-positive">
+    <h1 class="title">Editar texto</h1>
+    <button class="button button-clear button-primary" ng-click="modal.hide()">Cancel</button>
+  </ion-header-bar>
+  <ion-content class="padding" scroll="false">
+
+    <div class="list">
+      <textarea class="c-edit__field" ng-model="modal.textEdition"></textarea>
+
+      <button class="button button-full button-positive" ng-click="saveModalFile()">Guardar</button>
+    </div>
+
+  </ion-content>
+</ion-modal-view>

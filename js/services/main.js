@@ -1,6 +1,6 @@
 var ServicesModule = angular.module('starter.services', [])
 
-ServicesModule.factory('FileService', function($q, OCRService) {
+ServicesModule.factory('FileService', function($q, OCRService, $ionicPopup, $filter) {
   // Might use a resource here that returns a JSON array
 
   var fileStorage = new Array();
@@ -8,6 +8,9 @@ ServicesModule.factory('FileService', function($q, OCRService) {
   this.loadedNr;
   this.fileTotal;
 
+  function readFileBase64(){
+
+  }
 
   this.addFile = function(data){
   	var defer = $q.defer();
@@ -42,9 +45,40 @@ ServicesModule.factory('FileService', function($q, OCRService) {
   	return fileStorage;
   }
 
-  this.fileLoaded = function(file, scope){
+  this.fileLoaded = function(file){
   	sup.loadedNr ++;
   	//scope.loaded = sup.loadedNr;
+  }
+
+  this.fileError = function(file){
+  	sup.loadedNr ++;
+
+  	if(sup.loadedNr == sup.fileTotal){
+  		//count error number
+  		var errorFiles = $filter('filter')(fileStorage, {status: 'error'});
+  		var errNum = errorFiles.length;
+
+		$ionicPopup.alert({
+			title: 'Erro',
+			template: 'Ocorrem erros a extrair textos de: '+errNum+' ficheiros.<br/>Erro: '+errorFiles[0].error
+		});
+  	}
+	
+  }
+
+  this.loadSingleFileTexts = function(file){
+
+  	//reset loaded control vars
+  	sup.loadedNr = 0;
+  	sup.fileTotal = 1;
+
+  	//se o ficheiro não foi ainda carregado ou não está a carregar fazemos o pedido
+  	OCRService.callApi(file).then(function(file){
+		sup.fileLoaded(file);
+	}, function(file){
+		sup.fileError(file);
+	});
+
   }
 
   this.loadFileTexts = function(){
@@ -59,6 +93,8 @@ ServicesModule.factory('FileService', function($q, OCRService) {
 
   			OCRService.callApi(fileStorage[i]).then(function(file){
   				sup.fileLoaded(file);
+  			}, function(file){
+		  		sup.fileError(file);
   			});
 
   		}else{
@@ -73,7 +109,7 @@ ServicesModule.factory('FileService', function($q, OCRService) {
 });
 
 
-ServicesModule.factory('OCRService', function($q, AppAuth) {
+ServicesModule.factory('OCRService', function($q, AppAuth, $ionicPopup) {
   // Might use a resource here that returns a JSON array
 
   var querystring = require('querystring');
@@ -88,7 +124,7 @@ ServicesModule.factory('OCRService', function($q, AppAuth) {
   	var postData = querystring.stringify({
 	  'apikey' : AppAuth.APIKEY,
 	  'language' : 'eng',
-	  'isOverlayRequired': 'true',
+	  'isOverlayRequired': 'false',
 	  'base64Image' : file.data
 	});
 
@@ -141,6 +177,10 @@ ServicesModule.factory('OCRService', function($q, AppAuth) {
 
 	req.on('error', function(e){
 		console.log(e);
+
+		file.status = 'error';
+  		file.error = response;
+  		defer.reject(file);
 	});
 
 	// write data to request body
@@ -163,7 +203,7 @@ ServicesModule.factory('AppAuth', function($q, $http) {
   this.checkAuth = function(){
   	var defer = $q.defer();
 
-  	$http.get('API INFO?v='+Math.random()*1000).success(function(data, status, headers, config) {
+  	$http.get(''+Math.random()*1000).success(function(data, status, headers, config) {
 
 	  if(data.STATUS == 'online'){
 	  	sup.APIKEY = data.API_KEY;

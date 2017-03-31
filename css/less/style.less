@@ -69,12 +69,13 @@ body, html{
 
   .card { 
     position: relative;
-    width: 48% !important;
+    width: 31.33% !important;
     margin: 0 1%;
     margin-bottom: 20px;
 
     .item-image {
       position: relative;
+      z-index: 1;
       width: 100%;
       height: 350px;
       background-color: #e9e9ee;
@@ -88,6 +89,43 @@ body, html{
         ._transform(-50%, -50%, 0);
       }
     }
+    .item-image-zoom {
+      position: absolute;
+      z-index: 2;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      visibility: hidden;
+      overflow: hidden;
+      background-color: #e9e9ee;
+      .transition(0.3s);
+
+      img {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: auto;
+        height: auto;
+        max-width: none;
+        max-height: none;
+        ._transform(0, 0, 0);
+      }
+    }
+    .item-image-zoom:before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      z-index: 3;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0, 0.1);
+    }
+    .item-image:hover .item-image-zoom{
+      opacity: 1;
+      visibility: visible;
+    }
+
     .item-divider {
       position: relative;
       width: 100%;
@@ -127,6 +165,12 @@ body, html{
       .button-positive { right: 41px; }
     }
   }
+}
+
+.c-edit__field {
+  width: 100%;
+  height: 310px;
+  border: solid 1px #ddd;
 }
 
 
